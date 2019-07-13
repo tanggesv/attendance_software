@@ -4,7 +4,7 @@ Imports System.IO
 Imports System.Text
 
 Public Class AttLogs
-
+    'declare zkeemkeper
     Public AxCZKEM1 As New zkemkeeper.CZKEM
 
     Private bIsConnected = False 'the boolean value identifies whether the device is connected
