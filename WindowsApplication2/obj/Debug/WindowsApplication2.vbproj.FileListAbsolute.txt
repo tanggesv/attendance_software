@@ -12,3 +12,6 @@ D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\Interop.
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.vbproj.ResolveComReference.cache
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.uc_communication.resources
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.AttLogs.resources
+D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.AddDevice.resources
+D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.EnrollMain.resources
+D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.Form2.resources

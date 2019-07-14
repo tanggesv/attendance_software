@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Text
+Imports Microsoft.Office.Interop
 
 Public Class AttLogs
     'declare zkeemkeper
@@ -128,6 +129,8 @@ Public Class AttLogs
                     .CommandText = "SET IDENTITY_INSERT personallog ON insert into personallog (PersonalLogID,FingerPrintID,TerminalID,VerifyMode,datelog,datetime,TimeLog)values(@p0,@p1,@p2,@p3,@p4,@p5,@p6) "
                     .ExecuteNonQuery()
                     'SET IDENTITY_INSERT personallog ON
+                    'SET IDENTITY_INSERT personallog ON
+                    'SET IDENTITY_INSERT personallog ON
                 End With
             Next
             trc.Commit()
@@ -190,5 +193,130 @@ Public Class AttLogs
 
     Private Sub AttLogs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call WarnaListview(lvLogs)
+        ProgressBar1.Visible = False
+    End Sub
+
+    Private Sub Btn_export_Click(sender As Object, e As EventArgs) Handles Btn_export.Click
+        Label17.Text = picker1.Text
+        Lbl_count.Text = picker2.Text
+        Call export_to_excel()
+    End Sub
+
+    Private Sub Btn_fine_Click(sender As Object, e As EventArgs) Handles Btn_fine.Click
+        Me.lvLogs.Items.Clear()
+        OpenDB()
+        CMD = New SqlCommand("select TerminalID, fingerprintid,datelog,timelog, verifymode from personallog where datelog between '" & picker1.Text & "' and '" & picker2.Text & "'", CONN)
+        DA = New SqlDataAdapter(CMD)
+        Dim tbl As New DataTable
+        DA.Fill(tbl)
+        For i As Integer = 0 To tbl.Rows.Count - 1
+            With lvLogs
+                .Items.Add(tbl.Rows(i)("TerminalID"))
+                With .Items(.Items.Count - 1).SubItems
+                    .Add(tbl.Rows(i)("fingerprintid"))
+                    .Add(tbl.Rows(i)("datelog"))
+                    .Add(tbl.Rows(i)("timelog"))
+                End With
+            End With
+
+        Next
+        
+    End Sub
+    Sub export_to_excel()
+        sfd_export.Title = "Save Excel File"
+        sfd_export.Filter = "Excel File (*.xls)|*xls"
+        'sfd_export.ShowDialog()
+
+        'If sfd_export.FileName = "" Then
+        '    Exit Sub
+        'End If
+        If sfd_export.ShowDialog = Windows.Forms.DialogResult.OK Then
+            Try
+                Dim xls As New Excel.Application
+                Dim book As Excel.Workbook
+                Dim sheet As Excel.Worksheet
+                Dim sheetrange As Excel.Range
+                'create a workbook and get reference to first worksheet
+                xls.Workbooks.Add()
+                book = xls.ActiveWorkbook
+                sheet = book.ActiveSheet
+                'step through rows and columns and copy data to worksheet
+                Dim row As Integer = 2
+                Dim col As Integer = 1
+                Dim colum As Integer = 1
+                For j As Integer = 0 To lvLogs.Columns.Count - 1
+                    sheet.Cells(1, col) = lvLogs.Columns(j).Text.ToString
+                    With sheet.Range("a1")
+                        .EntireColumn.ColumnWidth = 70
+                        .Font.Bold = True
+                        .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                    End With
+                    With sheet.Range("b1")
+                        .EntireColumn.ColumnWidth = 120
+                        .Font.Bold = True
+                        .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                    End With
+                    With sheet.Range("c1")
+                        .EntireColumn.ColumnWidth = 15
+                        .Font.Bold = True
+                        .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                    End With
+                    With sheet.Range("d1", "e1")
+                        .EntireColumn.ColumnWidth = 15
+                        .Font.Bold = True
+                        .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                    End With
+                    With sheet.Range("f1", "g1")
+                        .EntireColumn.ColumnWidth = 15
+                        .Font.Bold = True
+                        .HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter
+                    End With
+                    col = col + 1
+                Next
+                Me.ProgressBar1.Visible = True
+                Me.ProgressBar1.Minimum = 0
+                Me.ProgressBar1.Maximum = lvLogs.Items.Count
+                For Each item As ListViewItem In lvLogs.Items
+                    For i As Integer = 0 To item.SubItems.Count - 1
+                        sheet.Cells(row, colum) = item.SubItems(i).Text
+                        sheetrange = sheet.Range("a1", "f1")
+                        sheetrange.EntireColumn.AutoFit()
+                        sheetrange.VerticalAlignment = Excel.XlHAlign.xlHAlignCenter
+                        colum = colum + 1
+                    Next
+                    row += 1
+                    colum = 1
+                    If Me.ProgressBar1.Maximum > Me.ProgressBar1.Value + 1 Then
+                        Me.ProgressBar1.Value = Me.ProgressBar1.Value + 1
+                    End If
+                Next
+
+                'save the workbook and clean up
+
+                book.SaveAs(sfd_export.FileName)
+                xls.Workbooks.Close()
+                xls.Quit()
+                releaseObject(sheet)
+                releaseObject(book)
+                releaseObject(xls)
+
+                Me.ProgressBar1.Visible = False
+                Me.ProgressBar1.Minimum = 0
+                MsgBox("Berhasil export Laporan, data laporan tersimpan di : " & sfd_export.FileName, MsgBoxStyle.Information, "Informasi")
+            Catch ex As Exception
+
+            End Try
+        End If
+    End Sub
+    Private Sub releaseObject(ByVal obj As Object)
+        'Release an automation object
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.Collect()
+        End Try
     End Sub
 End Class

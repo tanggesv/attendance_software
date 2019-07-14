@@ -22,13 +22,14 @@ Partial Class AttLogs
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"1", "123", "1", "1", "2018-11-21", "2018-11-29 15:49:03", "15:04"}, -1)
         Me.lvLogs = New System.Windows.Forms.ListView()
         Me.lvLogsch1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lvlogsch8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lvlLogsch9 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lvLogsch7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.btnGetGeneralLogData = New System.Windows.Forms.Button()
@@ -55,22 +56,25 @@ Partial Class AttLogs
         Me.TxtDesc = New System.Windows.Forms.TextBox()
         Me.TxtId = New System.Windows.Forms.TextBox()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.lvlogsch8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.lvlLogsch9 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Btc_Upload = New System.Windows.Forms.Button()
         Me.ofd_dat = New System.Windows.Forms.OpenFileDialog()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Lbl_count = New System.Windows.Forms.Label()
+        Me.Btn_export = New System.Windows.Forms.Button()
+        Me.picker1 = New System.Windows.Forms.DateTimePicker()
+        Me.picker2 = New System.Windows.Forms.DateTimePicker()
+        Me.Btn_fine = New System.Windows.Forms.Button()
+        Me.sfd_export = New System.Windows.Forms.SaveFileDialog()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.SuspendLayout()
         '
         'lvLogs
         '
         Me.lvLogs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.lvLogsch1, Me.lvLogsch2, Me.lvLogsch3, Me.lvLogsch4, Me.lvLogsch5, Me.lvlogsch8, Me.lvlLogsch9, Me.lvLogsch6, Me.lvLogsch7})
         Me.lvLogs.GridLines = True
-        Me.lvLogs.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem2})
         Me.lvLogs.Location = New System.Drawing.Point(0, 156)
         Me.lvLogs.Name = "lvLogs"
-        Me.lvLogs.Size = New System.Drawing.Size(499, 260)
+        Me.lvLogs.Size = New System.Drawing.Size(910, 260)
         Me.lvLogs.TabIndex = 10
         Me.lvLogs.UseCompatibleStateImageBehavior = False
         Me.lvLogs.View = System.Windows.Forms.View.Details
@@ -97,6 +101,15 @@ Partial Class AttLogs
         '
         Me.lvLogsch5.Text = "Date"
         '
+        'lvlogsch8
+        '
+        Me.lvlogsch8.Text = "DateTime"
+        Me.lvlogsch8.Width = 134
+        '
+        'lvlLogsch9
+        '
+        Me.lvlLogsch9.Text = "time"
+        '
         'lvLogsch6
         '
         Me.lvLogsch6.Text = "WorkCode"
@@ -108,7 +121,7 @@ Partial Class AttLogs
         '
         'btnGetGeneralLogData
         '
-        Me.btnGetGeneralLogData.Location = New System.Drawing.Point(359, 127)
+        Me.btnGetGeneralLogData.Location = New System.Drawing.Point(773, 131)
         Me.btnGetGeneralLogData.Name = "btnGetGeneralLogData"
         Me.btnGetGeneralLogData.Size = New System.Drawing.Size(137, 23)
         Me.btnGetGeneralLogData.TabIndex = 9
@@ -279,55 +292,46 @@ Partial Class AttLogs
         '
         'TxtIpPort
         '
-        Me.TxtIpPort.Location = New System.Drawing.Point(127, 85)
+        Me.TxtIpPort.Location = New System.Drawing.Point(100, 85)
         Me.TxtIpPort.Name = "TxtIpPort"
-        Me.TxtIpPort.Size = New System.Drawing.Size(100, 20)
+        Me.TxtIpPort.Size = New System.Drawing.Size(127, 20)
         Me.TxtIpPort.TabIndex = 116
         Me.TxtIpPort.Text = "4370"
         '
         'TxtIP
         '
-        Me.TxtIP.Location = New System.Drawing.Point(127, 59)
+        Me.TxtIP.Location = New System.Drawing.Point(100, 59)
         Me.TxtIP.Name = "TxtIP"
-        Me.TxtIP.Size = New System.Drawing.Size(100, 20)
+        Me.TxtIP.Size = New System.Drawing.Size(127, 20)
         Me.TxtIP.TabIndex = 115
         Me.TxtIP.Text = "192.168.86.201"
         '
         'TxtDesc
         '
-        Me.TxtDesc.Location = New System.Drawing.Point(127, 33)
+        Me.TxtDesc.Location = New System.Drawing.Point(100, 33)
         Me.TxtDesc.Name = "TxtDesc"
-        Me.TxtDesc.Size = New System.Drawing.Size(100, 20)
+        Me.TxtDesc.Size = New System.Drawing.Size(127, 20)
         Me.TxtDesc.TabIndex = 114
         '
         'TxtId
         '
-        Me.TxtId.Location = New System.Drawing.Point(127, 7)
+        Me.TxtId.Location = New System.Drawing.Point(100, 7)
         Me.TxtId.Name = "TxtId"
-        Me.TxtId.Size = New System.Drawing.Size(100, 20)
+        Me.TxtId.Size = New System.Drawing.Size(127, 20)
         Me.TxtId.TabIndex = 113
         '
         'Btn_Save
         '
-        Me.Btn_Save.Location = New System.Drawing.Point(284, 127)
+        Me.Btn_Save.Location = New System.Drawing.Point(673, 422)
         Me.Btn_Save.Name = "Btn_Save"
         Me.Btn_Save.Size = New System.Drawing.Size(75, 23)
         Me.Btn_Save.TabIndex = 135
         Me.Btn_Save.Text = "Save to DB"
         Me.Btn_Save.UseVisualStyleBackColor = True
         '
-        'lvlogsch8
-        '
-        Me.lvlogsch8.Text = "DateTime"
-        Me.lvlogsch8.Width = 134
-        '
-        'lvlLogsch9
-        '
-        Me.lvlLogsch9.Text = "time"
-        '
         'Btc_Upload
         '
-        Me.Btc_Upload.Location = New System.Drawing.Point(203, 127)
+        Me.Btc_Upload.Location = New System.Drawing.Point(754, 422)
         Me.Btc_Upload.Name = "Btc_Upload"
         Me.Btc_Upload.Size = New System.Drawing.Size(75, 23)
         Me.Btc_Upload.TabIndex = 136
@@ -341,7 +345,7 @@ Partial Class AttLogs
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 140)
+        Me.Label17.Location = New System.Drawing.Point(343, 85)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(62, 13)
         Me.Label17.TabIndex = 137
@@ -350,16 +354,62 @@ Partial Class AttLogs
         'Lbl_count
         '
         Me.Lbl_count.AutoSize = True
-        Me.Lbl_count.Location = New System.Drawing.Point(74, 140)
+        Me.Lbl_count.Location = New System.Drawing.Point(349, 105)
         Me.Lbl_count.Name = "Lbl_count"
         Me.Lbl_count.Size = New System.Drawing.Size(10, 13)
         Me.Lbl_count.TabIndex = 138
         Me.Lbl_count.Text = "."
         '
+        'Btn_export
+        '
+        Me.Btn_export.Location = New System.Drawing.Point(835, 422)
+        Me.Btn_export.Name = "Btn_export"
+        Me.Btn_export.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_export.TabIndex = 139
+        Me.Btn_export.Text = "Export Excel"
+        Me.Btn_export.UseVisualStyleBackColor = True
+        '
+        'picker1
+        '
+        Me.picker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.picker1.Location = New System.Drawing.Point(100, 421)
+        Me.picker1.Name = "picker1"
+        Me.picker1.Size = New System.Drawing.Size(91, 20)
+        Me.picker1.TabIndex = 140
+        '
+        'picker2
+        '
+        Me.picker2.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.picker2.Location = New System.Drawing.Point(100, 443)
+        Me.picker2.Name = "picker2"
+        Me.picker2.Size = New System.Drawing.Size(91, 20)
+        Me.picker2.TabIndex = 141
+        '
+        'Btn_fine
+        '
+        Me.Btn_fine.Location = New System.Drawing.Point(197, 443)
+        Me.Btn_fine.Name = "Btn_fine"
+        Me.Btn_fine.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_fine.TabIndex = 142
+        Me.Btn_fine.Text = "Find Data"
+        Me.Btn_fine.UseVisualStyleBackColor = True
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(810, 451)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(100, 15)
+        Me.ProgressBar1.TabIndex = 143
+        '
         'AttLogs
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.Btn_fine)
+        Me.Controls.Add(Me.picker2)
+        Me.Controls.Add(Me.picker1)
+        Me.Controls.Add(Me.Btn_export)
         Me.Controls.Add(Me.Lbl_count)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Btc_Upload)
@@ -389,7 +439,7 @@ Partial Class AttLogs
         Me.Controls.Add(Me.lvLogs)
         Me.Controls.Add(Me.btnGetGeneralLogData)
         Me.Name = "AttLogs"
-        Me.Size = New System.Drawing.Size(499, 416)
+        Me.Size = New System.Drawing.Size(913, 466)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -432,5 +482,11 @@ Partial Class AttLogs
     Friend WithEvents ofd_dat As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents Lbl_count As System.Windows.Forms.Label
+    Friend WithEvents Btn_export As System.Windows.Forms.Button
+    Friend WithEvents picker1 As System.Windows.Forms.DateTimePicker
+    Friend WithEvents picker2 As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Btn_fine As System.Windows.Forms.Button
+    Friend WithEvents sfd_export As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
 
 End Class

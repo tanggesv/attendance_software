@@ -1,6 +1,6 @@
 ﻿Public Class uc_communication
     Public axCZKEM1 As New zkemkeeper.CZKEM
-    Private bIsConnected = False 'the boolean value identifies whether the device is connected
+    Public bIsConnected = False 'the boolean value identifies whether the device is connected
     Public iMachineNumber As Integer 'the serial number of the device.After connecting the device ,this value will be changed.
 
     Public Property bIsConnect() As Boolean
