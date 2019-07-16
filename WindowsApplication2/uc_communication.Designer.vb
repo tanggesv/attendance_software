@@ -222,7 +222,7 @@ Partial Class uc_communication
         Me.TxtIP.Name = "TxtIP"
         Me.TxtIP.Size = New System.Drawing.Size(100, 20)
         Me.TxtIP.TabIndex = 93
-        Me.TxtIP.Text = "192.168.86.201"
+        Me.TxtIP.Text = "192.168.53.201"
         '
         'TxtDesc
         '

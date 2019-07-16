@@ -15,3 +15,4 @@ D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsA
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.AddDevice.resources
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.EnrollMain.resources
 D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.Form2.resources
+D:\varen\New folder\2\WindowsApplication2\WindowsApplication2\obj\Debug\WindowsApplication2.Mng_User.resources

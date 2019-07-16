@@ -30,22 +30,21 @@ Partial Class AddDevice
         Me.label19 = New System.Windows.Forms.Label()
         Me.btnGetDeviceTime = New System.Windows.Forms.Button()
         Me.btnSetDeviceTime = New System.Windows.Forms.Button()
-        Me.cbSecond = New System.Windows.Forms.ComboBox()
-        Me.cbMonth = New System.Windows.Forms.ComboBox()
-        Me.cbMinute = New System.Windows.Forms.ComboBox()
-        Me.btnSetDeviceTime2 = New System.Windows.Forms.Button()
         Me.txtGetDeviceTime = New System.Windows.Forms.TextBox()
-        Me.cbDay = New System.Windows.Forms.ComboBox()
-        Me.cbHour = New System.Windows.Forms.ComboBox()
-        Me.cbYear = New System.Windows.Forms.ComboBox()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Uc_communication1 = New WindowsApplication2.uc_communication()
         CType(Me.DgvListDevice, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'BtnUpdate
         '
-        Me.BtnUpdate.Location = New System.Drawing.Point(316, 189)
+        Me.BtnUpdate.Location = New System.Drawing.Point(319, 18)
         Me.BtnUpdate.Name = "BtnUpdate"
         Me.BtnUpdate.Size = New System.Drawing.Size(85, 23)
         Me.BtnUpdate.TabIndex = 30
@@ -54,7 +53,7 @@ Partial Class AddDevice
         '
         'BtnDelete
         '
-        Me.BtnDelete.Location = New System.Drawing.Point(407, 189)
+        Me.BtnDelete.Location = New System.Drawing.Point(410, 18)
         Me.BtnDelete.Name = "BtnDelete"
         Me.BtnDelete.Size = New System.Drawing.Size(85, 23)
         Me.BtnDelete.TabIndex = 29
@@ -63,7 +62,7 @@ Partial Class AddDevice
         '
         'Btn_Save
         '
-        Me.Btn_Save.Location = New System.Drawing.Point(225, 189)
+        Me.Btn_Save.Location = New System.Drawing.Point(228, 18)
         Me.Btn_Save.Name = "Btn_Save"
         Me.Btn_Save.Size = New System.Drawing.Size(85, 23)
         Me.Btn_Save.TabIndex = 28
@@ -73,7 +72,7 @@ Partial Class AddDevice
         'DgvListDevice
         '
         Me.DgvListDevice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvListDevice.Location = New System.Drawing.Point(3, 218)
+        Me.DgvListDevice.Location = New System.Drawing.Point(6, 47)
         Me.DgvListDevice.Name = "DgvListDevice"
         Me.DgvListDevice.Size = New System.Drawing.Size(493, 195)
         Me.DgvListDevice.TabIndex = 27
@@ -83,15 +82,8 @@ Partial Class AddDevice
         Me.GroupBox1.Controls.Add(Me.label19)
         Me.GroupBox1.Controls.Add(Me.btnGetDeviceTime)
         Me.GroupBox1.Controls.Add(Me.btnSetDeviceTime)
-        Me.GroupBox1.Controls.Add(Me.cbSecond)
-        Me.GroupBox1.Controls.Add(Me.cbMonth)
-        Me.GroupBox1.Controls.Add(Me.cbMinute)
-        Me.GroupBox1.Controls.Add(Me.btnSetDeviceTime2)
         Me.GroupBox1.Controls.Add(Me.txtGetDeviceTime)
-        Me.GroupBox1.Controls.Add(Me.cbDay)
-        Me.GroupBox1.Controls.Add(Me.cbHour)
-        Me.GroupBox1.Controls.Add(Me.cbYear)
-        Me.GroupBox1.Location = New System.Drawing.Point(504, 3)
+        Me.GroupBox1.Location = New System.Drawing.Point(9, 23)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(446, 143)
         Me.GroupBox1.TabIndex = 31
@@ -125,46 +117,6 @@ Partial Class AddDevice
         Me.btnSetDeviceTime.Text = "SetDeviceTime"
         Me.btnSetDeviceTime.UseVisualStyleBackColor = True
         '
-        'cbSecond
-        '
-        Me.cbSecond.FormattingEnabled = True
-        Me.cbSecond.Items.AddRange(New Object() {"1", "..", "59"})
-        Me.cbSecond.Location = New System.Drawing.Point(276, 107)
-        Me.cbSecond.Name = "cbSecond"
-        Me.cbSecond.Size = New System.Drawing.Size(41, 21)
-        Me.cbSecond.TabIndex = 84
-        Me.cbSecond.Text = "8"
-        '
-        'cbMonth
-        '
-        Me.cbMonth.DisplayMember = "Month"
-        Me.cbMonth.FormattingEnabled = True
-        Me.cbMonth.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"})
-        Me.cbMonth.Location = New System.Drawing.Point(80, 106)
-        Me.cbMonth.Name = "cbMonth"
-        Me.cbMonth.Size = New System.Drawing.Size(41, 21)
-        Me.cbMonth.TabIndex = 80
-        Me.cbMonth.Text = "12"
-        '
-        'cbMinute
-        '
-        Me.cbMinute.FormattingEnabled = True
-        Me.cbMinute.Items.AddRange(New Object() {"1", "..", "59"})
-        Me.cbMinute.Location = New System.Drawing.Point(227, 107)
-        Me.cbMinute.Name = "cbMinute"
-        Me.cbMinute.Size = New System.Drawing.Size(41, 21)
-        Me.cbMinute.TabIndex = 83
-        Me.cbMinute.Text = "8"
-        '
-        'btnSetDeviceTime2
-        '
-        Me.btnSetDeviceTime2.Location = New System.Drawing.Point(325, 105)
-        Me.btnSetDeviceTime2.Name = "btnSetDeviceTime2"
-        Me.btnSetDeviceTime2.Size = New System.Drawing.Size(114, 23)
-        Me.btnSetDeviceTime2.TabIndex = 85
-        Me.btnSetDeviceTime2.Text = "SetDeviceTime2"
-        Me.btnSetDeviceTime2.UseVisualStyleBackColor = True
-        '
         'txtGetDeviceTime
         '
         Me.txtGetDeviceTime.Location = New System.Drawing.Point(280, 65)
@@ -173,35 +125,40 @@ Partial Class AddDevice
         Me.txtGetDeviceTime.Size = New System.Drawing.Size(156, 20)
         Me.txtGetDeviceTime.TabIndex = 78
         '
-        'cbDay
+        'TabControl1
         '
-        Me.cbDay.FormattingEnabled = True
-        Me.cbDay.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "..", "30"})
-        Me.cbDay.Location = New System.Drawing.Point(129, 106)
-        Me.cbDay.Name = "cbDay"
-        Me.cbDay.Size = New System.Drawing.Size(41, 21)
-        Me.cbDay.TabIndex = 81
-        Me.cbDay.Text = "31"
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Location = New System.Drawing.Point(5, 142)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(514, 274)
+        Me.TabControl1.TabIndex = 33
         '
-        'cbHour
+        'TabPage1
         '
-        Me.cbHour.FormattingEnabled = True
-        Me.cbHour.Items.AddRange(New Object() {"1", "..", "59"})
-        Me.cbHour.Location = New System.Drawing.Point(178, 107)
-        Me.cbHour.Name = "cbHour"
-        Me.cbHour.Size = New System.Drawing.Size(41, 21)
-        Me.cbHour.TabIndex = 82
-        Me.cbHour.Text = "8"
+        Me.TabPage1.Controls.Add(Me.DgvListDevice)
+        Me.TabPage1.Controls.Add(Me.Btn_Save)
+        Me.TabPage1.Controls.Add(Me.BtnDelete)
+        Me.TabPage1.Controls.Add(Me.BtnUpdate)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(506, 248)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Add Device"
+        Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'cbYear
+        'TabPage2
         '
-        Me.cbYear.FormattingEnabled = True
-        Me.cbYear.Items.AddRange(New Object() {"2009", "2010", "2011", "2012"})
-        Me.cbYear.Location = New System.Drawing.Point(12, 106)
-        Me.cbYear.Name = "cbYear"
-        Me.cbYear.Size = New System.Drawing.Size(60, 21)
-        Me.cbYear.TabIndex = 79
-        Me.cbYear.Text = "2009"
+        Me.TabPage2.Controls.Add(Me.GroupBox1)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(506, 248)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Set Time Zone"
+        Me.TabPage2.UseVisualStyleBackColor = True
         '
         'Uc_communication1
         '
@@ -215,17 +172,16 @@ Partial Class AddDevice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Uc_communication1)
-        Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.BtnUpdate)
-        Me.Controls.Add(Me.BtnDelete)
-        Me.Controls.Add(Me.Btn_Save)
-        Me.Controls.Add(Me.DgvListDevice)
         Me.Name = "AddDevice"
-        Me.Size = New System.Drawing.Size(953, 416)
+        Me.Size = New System.Drawing.Size(523, 416)
         CType(Me.DgvListDevice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -237,14 +193,10 @@ Partial Class AddDevice
     Private WithEvents label19 As System.Windows.Forms.Label
     Private WithEvents btnGetDeviceTime As System.Windows.Forms.Button
     Private WithEvents btnSetDeviceTime As System.Windows.Forms.Button
-    Private WithEvents cbSecond As System.Windows.Forms.ComboBox
-    Private WithEvents cbMonth As System.Windows.Forms.ComboBox
-    Private WithEvents cbMinute As System.Windows.Forms.ComboBox
-    Private WithEvents btnSetDeviceTime2 As System.Windows.Forms.Button
     Private WithEvents txtGetDeviceTime As System.Windows.Forms.TextBox
-    Private WithEvents cbDay As System.Windows.Forms.ComboBox
-    Private WithEvents cbHour As System.Windows.Forms.ComboBox
-    Private WithEvents cbYear As System.Windows.Forms.ComboBox
     Friend WithEvents Uc_communication1 As WindowsApplication2.uc_communication
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
 
 End Class

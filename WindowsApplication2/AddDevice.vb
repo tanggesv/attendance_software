@@ -143,4 +143,10 @@ Public Class AddDevice
         End If
         Cursor = Cursors.Default
     End Sub
+
+  
+
+    Private Sub AddDevice_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Call view_grid()
+    End Sub
 End Class

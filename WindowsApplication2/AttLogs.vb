@@ -43,6 +43,7 @@ Public Class AttLogs
         Cursor = Cursors.Default
     End Sub
 #End Region
+
     Private Sub btnGetGeneralLogData_Click(sender As Object, e As EventArgs) Handles btnGetGeneralLogData.Click
 
         If bIsConnected = False Then
@@ -96,7 +97,7 @@ Public Class AttLogs
         AxCZKEM1.EnableDevice(iMachineNumber, True) 'enable the device
         Cursor = Cursors.Default
     End Sub
-
+#Region "Save DB"
     Protected trc As SqlTransaction
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         Call OpenDB()
@@ -143,6 +144,19 @@ Public Class AttLogs
 
         End Try
     End Sub
+    Private Sub WarnaListview(ByVal lv As ListView)
+        ' perulangan untuk setiap item pada listview
+        For Each item As ListViewItem In lv.Items
+            If item.Index Mod 2 = 0 Then
+                'warna baris genap
+                item.BackColor = Color.White
+            Else
+                'warna baris ganjil
+                item.BackColor = Color.Aquamarine
+            End If
+        Next
+    End Sub
+#End Region
 
     Private Sub Btc_Upload_Click(sender As Object, e As EventArgs) Handles Btc_Upload.Click
         lvLogs.Items.Clear()
@@ -178,23 +192,14 @@ Public Class AttLogs
         End If
         Cursor = Cursors.Default
     End Sub
-    Private Sub WarnaListview(ByVal lv As ListView)
-        ' perulangan untuk setiap item pada listview
-        For Each item As ListViewItem In lv.Items
-            If item.Index Mod 2 = 0 Then
-                'warna baris genap
-                item.BackColor = Color.White
-            Else
-                'warna baris ganjil
-                item.BackColor = Color.Aquamarine
-            End If
-        Next
-    End Sub
+    
 
     Private Sub AttLogs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call WarnaListview(lvLogs)
         ProgressBar1.Visible = False
     End Sub
+#Region "Export Excel"
+
 
     Private Sub Btn_export_Click(sender As Object, e As EventArgs) Handles Btn_export.Click
         Label17.Text = picker1.Text
@@ -319,4 +324,5 @@ Public Class AttLogs
             GC.Collect()
         End Try
     End Sub
+#End Region
 End Class

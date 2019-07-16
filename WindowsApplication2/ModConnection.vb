@@ -12,7 +12,7 @@ Module ModConnection
     Public Save, Delete, ubah As String
 
     Public Sub OpenDB()
-        sql = "Data Source=192.168.86.133;Initial Catalog=HITFPTA;Persist Security Info=True;UID=sa;PWD=asd"
+        sql = "Data Source=192.168.86.3;Initial Catalog=HITFPTA;Persist Security Info=True;UID=sa;PWD=asd"
 
         conn = New SqlConnection(sql)
         Try
