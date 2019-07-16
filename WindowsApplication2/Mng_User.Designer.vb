@@ -158,11 +158,11 @@ Partial Class Mng_User
         'LV_dataDB
         '
         Me.LV_dataDB.CheckBoxes = True
-        Me.LV_dataDB.Dock = System.Windows.Forms.DockStyle.Left
+        Me.LV_dataDB.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LV_dataDB.GridLines = True
         Me.LV_dataDB.Location = New System.Drawing.Point(0, 0)
         Me.LV_dataDB.Name = "LV_dataDB"
-        Me.LV_dataDB.Size = New System.Drawing.Size(506, 287)
+        Me.LV_dataDB.Size = New System.Drawing.Size(512, 287)
         Me.LV_dataDB.TabIndex = 5
         Me.LV_dataDB.UseCompatibleStateImageBehavior = False
         Me.LV_dataDB.View = System.Windows.Forms.View.Details
@@ -179,11 +179,11 @@ Partial Class Mng_User
         'LV_dataDev
         '
         Me.LV_dataDev.CheckBoxes = True
-        Me.LV_dataDev.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LV_dataDev.Dock = System.Windows.Forms.DockStyle.Fill
         Me.LV_dataDev.GridLines = True
-        Me.LV_dataDev.Location = New System.Drawing.Point(6, 0)
+        Me.LV_dataDev.Location = New System.Drawing.Point(0, 0)
         Me.LV_dataDev.Name = "LV_dataDev"
-        Me.LV_dataDev.Size = New System.Drawing.Size(521, 287)
+        Me.LV_dataDev.Size = New System.Drawing.Size(527, 287)
         Me.LV_dataDev.TabIndex = 6
         Me.LV_dataDev.UseCompatibleStateImageBehavior = False
         Me.LV_dataDev.View = System.Windows.Forms.View.Details

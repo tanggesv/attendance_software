@@ -25,21 +25,7 @@ Public Class Mng_User
             End If
         Next
     End Sub
-    Sub header_UserDB()
-        Me.LV_dataDB.Columns.Clear()
-        With LV_dataDB
-            .Columns.Add("Finger Print ID", 90, HorizontalAlignment.Center)
-            .Columns.Add("Card Number", 100, HorizontalAlignment.Center)
-            .Columns.Add("Nick Name", 120, HorizontalAlignment.Center)
-            .Columns.Add("Employee Number", 120, HorizontalAlignment.Center)
-            .Columns.Add("Privilege", 70, HorizontalAlignment.Center)
-            .Columns.Add("Password", 70, HorizontalAlignment.Center)
-            .Columns.Add("employeeid", 70, HorizontalAlignment.Center)
-            .Columns.Add("Template", 70, HorizontalAlignment.Center)
-            .Columns.Add("finger status", 70, HorizontalAlignment.Center)
-            .Columns.Add("flag", 70, HorizontalAlignment.Center)
-        End With
-    End Sub
+   
     Sub header_UserDev()
         Me.LV_dataDev.Columns.Clear()
         With LV_dataDev
@@ -230,7 +216,7 @@ Public Class Mng_User
         Next
 
         MsgBox("Success save user to database ", MsgBoxStyle.Information, "Information")
-        ' setLvUserFromDB()
+        ' setLV_dataDB()
     End Sub
 
 
@@ -291,116 +277,131 @@ Public Class Mng_User
     Sub buattable()
 
     End Sub
-    Sub isilist()
-        Call OpenDB()
-        CMD = New SqlCommand("select fingerprintid,employeecardnumber,employeenickname,EmployeeFingerLength0,EmployeePrivilege,employeepassword,employeeid,employeefingerdata0,employeefingerstatus,employeenotes from employee", CONN)
-        DA = New SqlDataAdapter(CMD)
-        Dim dt As New DataTable
-        DA.Fill(dt)
+    Sub header_UserDB()
+        Me.LV_dataDB.Columns.Clear()
         With LV_dataDB
-            .View = View.Details
-            .FullRowSelect = True
-            .GridLines = True
-            header_UserDB()
-
-            Dim v_nilai As Integer = -5
-            For i As Integer = 0 To dt.Rows.Count - 1
-                .Items.Add((dt.Rows(i)("fingerprintid"))) '0
-                With .Items(.Items.Count - 1).SubItems
-
-                    .Add(dt.Rows(i)("employeenickname").ToString) '1
-
-                    .Add(dt.Rows(i)("EmployeeFingerLength0").ToString) '2 
-                    .Add(dt.Rows(i)("employeefingerdata0").ToString) '3
-                    .Add(dt.Rows(i)("EmployeePrivilege").ToString) '4
-                    .Add(dt.Rows(i)("employeepassword").ToString) '5
-                    .Add(dt.Rows(i)("employeefingerstatus").ToString) '6
-                    .Add(dt.Rows(i)("employeenotes").ToString) '7
-                    '.Add(dt.Rows(i)("employeeid").ToString) '8
-
-
-
-                    '.Add(dt.Rows(i)("employeecardnumber").ToString) '1
-                   
-
-                End With
-                
-            Next
-
-            .AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+            .Columns.Add("", 30, HorizontalAlignment.Center)
+            .Columns.Add("Finger Print ID", 90, HorizontalAlignment.Center)
+            .Columns.Add("Card Number", 100, HorizontalAlignment.Center)
+            .Columns.Add("Nick Name", 120, HorizontalAlignment.Center)
+            .Columns.Add("Employee Number", 120, HorizontalAlignment.Center)
+            .Columns.Add("Privilege", 70, HorizontalAlignment.Center)
+            .Columns.Add("Password", 70, HorizontalAlignment.Center)
+            .Columns.Add("employeeid", 70, HorizontalAlignment.Center)
+            .Columns.Add("finger status", 70, HorizontalAlignment.Center)
+            .Columns.Add("Template", 70, HorizontalAlignment.Center)
+            .Columns.Add("flag", 70, HorizontalAlignment.Center)
         End With
     End Sub
+    Sub isilist()
+        LV_dataDB.Items.Clear()
+        LV_dataDB.Refresh()
+        'Dim Query = "SELECT FingerPrintID, EmployeeCardNumber, EmployeeNickName, EmployeeID, EmployeePrivilege  FROM Employee"
+
+        ' Unpivot Table
+        Dim Query = "select fingerprintid,EmployeeCardNumber, EmployeeNickName, fpidx ,EmployeePrivilege ,  employeepassword,   EmployeeID,employeefingerstatus,  orders FROM" &
+                   "(SELECT fingerprintid, EmployeeFingerData0, EmployeeFingerData1, EmployeeFingerData2, " &
+                   "EmployeeFingerData3, EmployeeFingerData4, EmployeeFingerData5, EmployeeFingerData6," &
+                   "EmployeeFingerData7, EmployeeFingerData8, EmployeeFingerData9, EmployeeCardNumber, EmployeeNickName,EmployeePrivilege ,employeepassword, employeefingerstatus, EmployeeID" &
+                   " FROM employee) e " &
+                   "UNPIVOT" &
+                   "(Orders FOR fpidx IN " &
+                   "(EmployeeFingerData0, EmployeeFingerData1, EmployeeFingerData2, " &
+                   "EmployeeFingerData3, EmployeeFingerData4, EmployeeFingerData5, EmployeeFingerData6," &
+                   "EmployeeFingerData7, EmployeeFingerData8, EmployeeFingerData9)" &
+                   ")AS unpvt"
+        Try
+            Call OpenDB()
+            CMD = New SqlCommand(Query, CONN)
+            DR = CMD.ExecuteReader()
+
+            Dim CountNumber As Integer = 1
+            
+            While (DR.Read())
+                Dim dataRow() As String = {
+                    "",
+                    DR.GetValue(0).ToString(),
+                    DR.GetValue(1).ToString(),
+                    DR.GetValue(2).ToString(),
+                    DR.GetValue(3).ToString().Substring(DR.GetValue(3).ToString().Length - 1, 1),
+                    DR.GetValue(4).ToString(),
+                    DR.GetValue(5).ToString(),
+                    DR.GetValue(6).ToString(),
+                    DR.GetValue(7).ToString(),
+                    DR.GetValue(8).ToString()
+                }
+
+                Dim lvItem As New ListViewItem()
+
+                lvItem = New ListViewItem(dataRow)
+                LV_dataDB.Items.Add(lvItem)
+                CountNumber += CountNumber
+            End While
+            CMD.Dispose()
+            DR.Close()
+            CONN.Close()
+        Catch ex As Exception
+            MsgBox(Err.Description, MsgBoxStyle.Critical, "Error")
+        End Try
+        'Call OpenDB()
+        ''CMD = New SqlCommand("select fingerprintid,employeecardnumber,employeenickname,EmployeeFingerLength0,EmployeePrivilege,employeepassword,employeeid,employeefingerdata0,employeefingerstatus,employeenotes from employee", CONN)
+        'CMD = New SqlCommand("select fingerprintid,employeenotes,employeefingerstatus,employeepassword, fpidx, tmpData ,   EmployeeCardNumber, EmployeeNickName, EmployeeID, EmployeePrivilege  FROM (SELECT fingerprintid, EmployeeFingerData0,employeefingerstatus, EmployeeFingerData1, EmployeeFingerData2, EmployeeFingerData3, EmployeeFingerData4, EmployeeFingerData5, EmployeeFingerData6, EmployeeFingerData7, EmployeeFingerData8, EmployeeFingerData9  ,   EmployeeCardNumber, EmployeeNickName,employeenotes,employeepassword, EmployeeID, EmployeePrivilege    FROM employee) e UNPIVOT (tmpData FOR fpidx IN         (EmployeeFingerData0, EmployeeFingerData1, EmployeeFingerData2, EmployeeFingerData3, EmployeeFingerData4, EmployeeFingerData5, EmployeeFingerData6, EmployeeFingerData7, EmployeeFingerData8, EmployeeFingerData9)  )AS unpvt ", CONN)
+        'DA = New SqlDataAdapter(CMD)
+        'Dim dt As New DataTable
+        'DA.Fill(dt)
+        'With LV_dataDB
+        '    .View = View.Details
+        '    .FullRowSelect = True
+        '    .GridLines = True
+        '    header_UserDB()
+        '    Dim v_nilai As Integer = -5
+        '    For i As Integer = 0 To dt.Rows.Count - 1
+
+        '        LV_dataDB.Items.Add((dt.Rows(i)("fingerprintid"))) '0
+        '        With .Items(.Items.Count - 1).SubItems
+        '            .Add(dt.Rows(i)("employeenickname").ToString) '2 
+        '            .Add(dt.Rows(i)("fingerprintid").ToString) '3
+        '            .Add(dt.Rows(i)("EmployeePrivilege").ToString) '4
+
+        '            .Add(dt.Rows(i)("employeecardnumber").ToString) '1
+        '            .Add(dt.Rows(i)("employeepassword").ToString) '5
+        '            .Add(dt.Rows(i)("employeenotes").ToString) '6
+        '            ' .Add(dt.Rows(i)("employeefingerstatus").ToString) '7
+
+        '            .Add(dt.Rows(i)(9).ToString().Substring(dt.Rows(i).ToString().Length - 1, 1)) '7
+
+        '            .Add(dt.Rows(i)("employeeid").ToString) '8
+        '            .Add(dt.Rows(i)("tmpData").ToString) '9
+        '        End With
+        '    Next
+        '    .AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+        'End With
+        'For i As Integer = 0 To dt.Rows.Count - 1
+        '    .Items.Add((dt.Rows(i)("fingerprintid"))) '0
+        '    With .Items(.Items.Count - 1).SubItems
+
+        '        .Add(dt.Rows(i)("employeenickname").ToString) '1
+
+        '        .Add(dt.Rows(i)("EmployeeFingerLength0").ToString) '2 
+        '        .Add(dt.Rows(i)("employeefingerdata0").ToString) '3
+        '        .Add(dt.Rows(i)("EmployeePrivilege").ToString) '4
+        '        .Add(dt.Rows(i)("employeepassword").ToString) '5
+        '        .Add(dt.Rows(i)("employeefingerstatus").ToString) '6
+        '        .Add(dt.Rows(i)("employeenotes").ToString) '7
+        '        '.Add(dt.Rows(i)("employeeid").ToString) '8
+
+
+
+        '        '.Add(dt.Rows(i)("employeecardnumber").ToString) '1
+
+
+        '    End With
+
+        'Next
+    End Sub
+   
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        'If Uc_communication1.bIsConnected = False Then
-        '    MsgBox("Please connect the device first", MsgBoxStyle.Exclamation, "Error")
-        '    Return
-        'End If
-        'If LV_dataDB.Items.Count = 0 Then
-        '    MsgBox("There is no data to upload!", MsgBoxStyle.Exclamation, "Error")
-        '    Return
-        'End If
-        'Dim idwErrorCode As Integer
-
-        'Dim sdwEnrollNumber As String = ""
-        'Dim sName As String = ""
-        'Dim sPassword As String = ""
-        'Dim iPrivilege As Integer
-        'Dim idwFingerIndex As Integer
-        'Dim sTmpData As String = ""
-        'Dim sEnabled As String = ""
-        'Dim bEnabled As Boolean = False
-        'Dim iflag As Integer
-
-        'Dim iUpdateFlag As Integer = 1
-        'Dim lvItem As New ListViewItem
-
-        'Cursor = Cursors.WaitCursor
-        'Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, False)
-
-        'If Uc_communication1.axCZKEM1.BeginBatchUpdate(Uc_communication1.iMachineNumber, iUpdateFlag) Then 'create memory space for batching data
-        '    Dim iLastEnrollNumber As Integer = 0 'the former enrollnumber you have upload(define original value as 0)
-        '    For Each lvItem In LV_dataDB.Items
-        '        sdwEnrollNumber = Convert.ToInt32(lvItem.SubItems(0).Text.Trim())
-        '        sName = lvItem.SubItems(1).Text.Trim()
-        '        idwFingerIndex = Convert.ToInt32(lvItem.SubItems(2).Text.Trim())
-        '        sTmpData = lvItem.SubItems(3).Text.Trim()
-        '        iPrivilege = Convert.ToInt32(lvItem.SubItems(4).Text.Trim())
-        '        sPassword = lvItem.SubItems(5).Text.Trim()
-        '        sEnabled = lvItem.SubItems(6).Text.Trim()
-        '        iflag = Convert.ToInt32(lvItem.SubItems(7).Text.Trim())
-
-        '        If sEnabled = "true" Then
-        '            bEnabled = True
-        '        Else
-        '            bEnabled = False
-        '        End If
-
-        '        If sdwEnrollNumber <> iLastEnrollNumber Then 'identify whether the user information(except fingerprint templates) has been uploaded
-        '            If Uc_communication1.axCZKEM1.SSR_SetUserInfo(Uc_communication1.iMachineNumber, sdwEnrollNumber, sName, sPassword, iPrivilege, bEnabled) Then 'upload user information to the device
-        '                Uc_communication1.axCZKEM1.SetUserTmpExStr(Uc_communication1.iMachineNumber, sdwEnrollNumber, idwFingerIndex, iflag, sTmpData) 'upload templates information to the device
-        '            Else
-        '                Uc_communication1.axCZKEM1.GetLastError(idwErrorCode)
-        '                MsgBox("Operation failed,ErrorCode=" & idwErrorCode.ToString(), MsgBoxStyle.Exclamation, "Error")
-        '                Cursor = Cursors.Default
-        '                Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, True)
-        '                Return
-        '            End If
-        '        Else 'the current fingerprint and the former one belongs the same user,that is ,one user has more than one template
-        '            Uc_communication1.axCZKEM1.SetUserTmpExStr(Uc_communication1.iMachineNumber, sdwEnrollNumber, idwFingerIndex, iflag, sTmpData) 'upload tempates information to the memory
-        '        End If
-        '        iLastEnrollNumber = sdwEnrollNumber 'change the value of iLastEnrollNumber dynamicly
-        '    Next
-        'End If
-
-        'Uc_communication1.axCZKEM1.BatchUpdate(Uc_communication1.iMachineNumber) 'upload all the information in the memory
-        'Uc_communication1.axCZKEM1.RefreshData(Uc_communication1.iMachineNumber) 'the data in the device should be refreshed
-        'Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, True)
-        'Cursor = Cursors.Default
-        'MsgBox("Successfully upload fingerprint templates in batches , " + "total:" + LV_dataDB.Items.Count.ToString(), MsgBoxStyle.Information, "Success")
-
-
-
 
         If Uc_communication1.bIsConnected = False Then
             MsgBox("Please connect the device first", MsgBoxStyle.Exclamation, "Error")
@@ -431,15 +432,24 @@ Public Class Mng_User
         If Uc_communication1.axCZKEM1.BeginBatchUpdate(Uc_communication1.iMachineNumber, iUpdateFlag) Then 'create memory space for batching data
             Dim iLastEnrollNumber As Integer = 0 'the former enrollnumber you have upload(define original value as 0)
             For Each lvItem In LV_dataDB.Items
-                sdwEnrollNumber = Convert.ToInt32(lvItem.SubItems(0).Text.Trim())
-                sName = lvItem.SubItems(1).Text.Trim()
-                idwFingerIndex = Convert.ToInt32(lvItem.SubItems(2).Text.Trim())
-                sTmpData = lvItem.SubItems(7).Text.Trim()
-                iPrivilege = Convert.ToInt32(lvItem.SubItems(4).Text.Trim())
-                sPassword = lvItem.SubItems(5).Text.Trim()
-                sEnabled = lvItem.SubItems(6).Text.Trim()
+                sdwEnrollNumber = Convert.ToInt32(lvItem.SubItems(1).Text.Trim())
+                sName = lvItem.SubItems(3).Text.Trim()
+                idwFingerIndex = Convert.ToInt32(lvItem.SubItems(4).Text.Trim())
+                sTmpData = lvItem.SubItems(9).Text.Trim()
+                iPrivilege = Convert.ToInt32(lvItem.SubItems(5).Text.Trim())
+                sPassword = lvItem.SubItems(6).Text.Trim()
+                sEnabled = lvItem.SubItems(8).Text.Trim()
                 'iflag = Convert.ToInt32(lvItem.SubItems(8).Text.Trim().ToString)
-
+                '.Columns.Add("", 30, HorizontalAlignment.Center)0
+                '.Columns.Add("Finger Print ID", 90, HorizontalAlignment.Center)1
+                '.Columns.Add("Card Number", 100, HorizontalAlignment.Center)2
+                '.Columns.Add("Nick Name", 120, HorizontalAlignment.Center) 3
+                '.Columns.Add("Employee Number", 120, HorizontalAlignment.Center)4
+                '.Columns.Add("Privilege", 70, HorizontalAlignment.Center)5
+                '.Columns.Add("Password", 70, HorizontalAlignment.Center)6
+                '.Columns.Add("employeeid", 70, HorizontalAlignment.Center)7
+                '.Columns.Add("finger status", 70, HorizontalAlignment.Center)8
+                '.Columns.Add("Template", 70, HorizontalAlignment.Center)9
                 If sEnabled = "true" Then
                     bEnabled = True
                 Else
@@ -469,7 +479,76 @@ Public Class Mng_User
         Cursor = Cursors.Default
         MsgBox("Successfully upload fingerprint templates in batches , " + "total:" + LV_dataDB.Items.Count.ToString(), MsgBoxStyle.Information, "Success")
     End Sub
+    'Sub a1()
+    'If Uc_communication1.bIsConnected = False Then
+    '    MsgBox("Please connect the device first", MsgBoxStyle.Exclamation, "Error")
+    '    Return
+    'End If
+    'If LV_dataDB.Items.Count = 0 Then
+    '    MsgBox("There is no data to upload!", MsgBoxStyle.Exclamation, "Error")
+    '    Return
+    'End If
+    'Dim idwErrorCode As Integer
 
+    'Dim sdwEnrollNumber As String = ""
+    'Dim sName As String = ""
+    'Dim sPassword As String = ""
+    'Dim iPrivilege As Integer
+    'Dim idwFingerIndex As Integer
+    'Dim sTmpData As String = ""
+    'Dim sEnabled As String = ""
+    'Dim bEnabled As Boolean = False
+    'Dim iflag As Integer
+
+    'Dim iUpdateFlag As Integer = 1
+    'Dim lvItem As New ListViewItem
+
+    'Cursor = Cursors.WaitCursor
+    'Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, False)
+
+    'If Uc_communication1.axCZKEM1.BeginBatchUpdate(Uc_communication1.iMachineNumber, iUpdateFlag) Then 'create memory space for batching data
+    '    Dim iLastEnrollNumber As Integer = 0 'the former enrollnumber you have upload(define original value as 0)
+    '    For Each lvItem In LV_dataDB.Items
+    '        sdwEnrollNumber = Convert.ToInt32(lvItem.SubItems(0).Text.Trim())
+    '        sName = lvItem.SubItems(1).Text.Trim()
+    '        idwFingerIndex = Convert.ToInt32(lvItem.SubItems(2).Text.Trim())
+    '        sTmpData = lvItem.SubItems(3).Text.Trim()
+    '        iPrivilege = Convert.ToInt32(lvItem.SubItems(4).Text.Trim())
+    '        sPassword = lvItem.SubItems(5).Text.Trim()
+    '        sEnabled = lvItem.SubItems(6).Text.Trim()
+    '        iflag = Convert.ToInt32(lvItem.SubItems(7).Text.Trim())
+
+    '        If sEnabled = "true" Then
+    '            bEnabled = True
+    '        Else
+    '            bEnabled = False
+    '        End If
+
+    '        If sdwEnrollNumber <> iLastEnrollNumber Then 'identify whether the user information(except fingerprint templates) has been uploaded
+    '            If Uc_communication1.axCZKEM1.SSR_SetUserInfo(Uc_communication1.iMachineNumber, sdwEnrollNumber, sName, sPassword, iPrivilege, bEnabled) Then 'upload user information to the device
+    '                Uc_communication1.axCZKEM1.SetUserTmpExStr(Uc_communication1.iMachineNumber, sdwEnrollNumber, idwFingerIndex, iflag, sTmpData) 'upload templates information to the device
+    '            Else
+    '                Uc_communication1.axCZKEM1.GetLastError(idwErrorCode)
+    '                MsgBox("Operation failed,ErrorCode=" & idwErrorCode.ToString(), MsgBoxStyle.Exclamation, "Error")
+    '                Cursor = Cursors.Default
+    '                Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, True)
+    '                Return
+    '            End If
+    '        Else 'the current fingerprint and the former one belongs the same user,that is ,one user has more than one template
+    '            Uc_communication1.axCZKEM1.SetUserTmpExStr(Uc_communication1.iMachineNumber, sdwEnrollNumber, idwFingerIndex, iflag, sTmpData) 'upload tempates information to the memory
+    '        End If
+    '        iLastEnrollNumber = sdwEnrollNumber 'change the value of iLastEnrollNumber dynamicly
+    '    Next
+    'End If
+
+    'Uc_communication1.axCZKEM1.BatchUpdate(Uc_communication1.iMachineNumber) 'upload all the information in the memory
+    'Uc_communication1.axCZKEM1.RefreshData(Uc_communication1.iMachineNumber) 'the data in the device should be refreshed
+    'Uc_communication1.axCZKEM1.EnableDevice(Uc_communication1.iMachineNumber, True)
+    'Cursor = Cursors.Default
+    'MsgBox("Successfully upload fingerprint templates in batches , " + "total:" + LV_dataDB.Items.Count.ToString(), MsgBoxStyle.Information, "Success")
+
+
+    'End Sub
 
     'Sub gagal()
     '    If Uc_communication1.bIsConnected = False Then
